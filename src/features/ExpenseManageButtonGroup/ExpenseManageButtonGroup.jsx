@@ -7,6 +7,7 @@ import { deleteExpense } from "../../redux/slices/expenses.slice";
 const ButtonGroup = styled.div`
   display: flex;
   gap: 0.3rem;
+  justify-content: flex-end;
 `;
 
 function ExpenseManageButtonGroup() {
