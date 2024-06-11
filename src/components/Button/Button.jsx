@@ -4,6 +4,7 @@ const Button = styled.button`
   background-color: #42b4aa;
   color: white;
   border-radius: 0.3rem;
+  width: ${({ $width }) => ($width ? $width : "initial")};
   padding: 0.6rem 1rem;
   &:hover {
     background-color: #2c938a;

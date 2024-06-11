@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import ExpenseForm from "../../features/ExpenseForm/ExpenseForm";
-import ExpenseManageButtonGroup from "../../features/ExpenseManageButtonGroup/ExpenseManageButtonGroup";
 import { updateExpense } from "../../redux/slices/expenses.slice";
 
 const Wrapper = styled.div`
@@ -36,9 +35,7 @@ function Detail() {
   return (
     <Wrapper>
       {expense ? (
-        <ExpenseForm handleSubmit={handleSubmit} initialValue={expense}>
-          <ExpenseManageButtonGroup goHome={goHome} />
-        </ExpenseForm>
+        <ExpenseForm handleSubmit={handleSubmit} initialValue={expense} />
       ) : (
         <NoData>
           <div>아이디에 해당하는 데이터가 존재하지 않습니다 🥺</div>

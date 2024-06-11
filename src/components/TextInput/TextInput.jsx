@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const TextInput = styled.input`
@@ -14,15 +13,5 @@ const TextInput = styled.input`
     background-color: #ebebeb;
   }
 `;
-
-TextInput.propTypes = {
-  validate: PropTypes.func,
-  type: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  maxLength: PropTypes.number,
-  disabled: PropTypes.bool,
-  msg: PropTypes.string,
-};
 
 export default TextInput;

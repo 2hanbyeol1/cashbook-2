@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
-import Detail from "./pages/Detail";
-import Home from "./pages/Home";
+import router from "./router/router";
 
 function App() {
   const expenses = useSelector((state) => state.expenses);
@@ -13,13 +12,10 @@ function App() {
   }, [expenses]);
 
   return (
-    <BrowserRouter>
+    <>
       <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/detail/:expenseId" element={<Detail />} />
-      </Routes>
-    </BrowserRouter>
+      <RouterProvider router={router} />
+    </>
   );
 }
 

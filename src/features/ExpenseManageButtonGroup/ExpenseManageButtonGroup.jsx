@@ -1,7 +1,6 @@
 import Button from "@/components/Button";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { deleteExpense } from "../../redux/slices/expenses.slice";
 
@@ -10,9 +9,12 @@ const ButtonGroup = styled.div`
   gap: 0.3rem;
 `;
 
-function ExpenseManageButtonGroup({ goHome }) {
+function ExpenseManageButtonGroup() {
   const { expenseId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const goHome = () => navigate("/");
 
   const handleDeleteButtonClicked = () => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
@@ -33,8 +35,6 @@ function ExpenseManageButtonGroup({ goHome }) {
   );
 }
 
-ExpenseManageButtonGroup.propTypes = {
-  goHome: PropTypes.func.isRequired,
-};
+ExpenseManageButtonGroup.propTypes = {};
 
 export default ExpenseManageButtonGroup;

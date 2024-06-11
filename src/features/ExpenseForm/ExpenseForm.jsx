@@ -1,4 +1,5 @@
 import ExpenseInputGroup from "@/features/ExpenseInputGroup";
+import ExpenseManageButtonGroup from "@/features/ExpenseManageButtonGroup";
 import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
@@ -12,7 +13,7 @@ const StyledForm = styled.form`
   border-radius: 0.3rem;
 `;
 
-function ExpenseForm({ handleSubmit, initialValue, children }) {
+function ExpenseForm({ handleSubmit, initialValue }) {
   useEffect(() => {
     dateRef.current.focus();
 
@@ -67,7 +68,7 @@ function ExpenseForm({ handleSubmit, initialValue, children }) {
           amountRef={amountRef}
           descriptionRef={descriptionRef}
         />
-        {children}
+        <ExpenseManageButtonGroup />
       </StyledForm>
     </section>
   );
@@ -82,7 +83,6 @@ ExpenseForm.propTypes = {
     amount: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
   }),
-  children: PropTypes.node,
 };
 
 export default ExpenseForm;
