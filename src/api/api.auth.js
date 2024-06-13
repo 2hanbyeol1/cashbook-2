@@ -8,9 +8,9 @@ class AuthAPI {
   async signUp({ id, password, nickname }) {
     try {
       const response = await this.#client.post("/register", {
-        id: id,
-        password: password,
-        nickname: nickname,
+        id,
+        password,
+        nickname,
       });
       const data = response.data;
       return data.success;
@@ -22,9 +22,9 @@ class AuthAPI {
 
   async login({ id, password }) {
     try {
-      const response = await this.#client.post("/login?expiresIn=10m", {
-        id: id,
-        password: password,
+      const response = await this.#client.post("/login?expiresIn=1h", {
+        id,
+        password,
       });
       const data = response.data;
       return data;
@@ -40,10 +40,25 @@ class AuthAPI {
       const data = response.data;
       return data;
     } catch (e) {
-      console.log(e.response.data.message);
+      return null;
+    }
+  }
+
+  async changeInfo({ avatar, nickname }) {
+    try {
+      const formData = new FormData();
+      formData.append("avatar", avatar);
+      formData.append("nickname", nickname);
+      const response = await this.#client.patch("/profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const data = response.data;
+      return data;
+    } catch (e) {
       throw new Error();
     }
-    return null;
   }
 }
 

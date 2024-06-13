@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import api from "../../api/api";
 import { ACCESS_TOKEN } from "../../constants/storageKey";
 import useLoginStore from "../../state/zustand/login.store";
 
@@ -13,9 +14,10 @@ function LogoutButton() {
   const logout = useLoginStore((state) => state.logout);
 
   const handleButtonClicked = () => {
-    localStorage.removeItem(ACCESS_TOKEN);
-    logout();
     alert("로그아웃 완료");
+    logout();
+    api.setAccessToken("");
+    localStorage.removeItem(ACCESS_TOKEN);
     navigate("/login");
   };
 

@@ -49,12 +49,12 @@ function Login() {
       return alert(`비밀번호는 ${PW_MIN} - ${PW_MAX} 글자로 작성해주세요`);
 
     const loginUser = await api.auth.login({ id, password: pw });
-    console.log(loginUser);
     if (loginUser) {
       alert(`${loginUser.nickname}님 환영합니다`);
+      api.setAccessToken(loginUser.accessToken);
       localStorage.setItem(ACCESS_TOKEN, loginUser.accessToken);
-      navigate("/");
       login(loginUser);
+      navigate("/");
     }
   };
 

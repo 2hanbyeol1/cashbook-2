@@ -11,16 +11,13 @@ const Container = styled.div`
 
 function DefaultLayout() {
   const navigate = useNavigate();
-  const loginUser = useLoginStore((state) => state.loginUser);
   const login = useLoginStore((state) => state.login);
 
   useEffect(() => {
-    if (loginUser) return;
     const getUserByAccessToken = async () => {
-      api.auth
-        .getUser()
-        .then((loginUser) => login(loginUser))
-        .catch(() => navigate("/login"));
+      const loginUser = await api.auth.getUser();
+      if (loginUser) login(loginUser);
+      else navigate("/login");
     };
     getUserByAccessToken();
   }, []);

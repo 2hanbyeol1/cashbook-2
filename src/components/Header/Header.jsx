@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import homeImg from "../../assets/image/home.png";
 import defaultUserImg from "../../assets/image/user.png";
 import useLoginStore from "../../state/zustand/login.store";
 import LogoutButton from "./LogoutButton";
@@ -23,9 +24,12 @@ const RightItems = styled.ul`
   gap: 1rem;
 `;
 
-const ProfileImage = styled.img`
+const HeaderImage = styled.img`
   width: 1.7rem;
   height: 1.7rem;
+`;
+
+const ProfileImage = styled(HeaderImage)`
   border-radius: 50%;
   object-fit: cover;
 `;
@@ -41,15 +45,17 @@ function Header() {
   return (
     <Wrapper>
       <HeaderItems>
-        <Link to="/">Home</Link>
+        <Link to="/">
+          <HeaderImage src={homeImg} />
+        </Link>
         <RightItems>
           <li>
             <MyPageLink to="/mypage">
               <ProfileImage
-                src={loginUser.avatar || defaultUserImg}
+                src={loginUser?.avatar || defaultUserImg}
                 alt="프로필 이미지"
               />
-              <span>{loginUser.nickname}</span>
+              <span>{loginUser?.nickname}</span>
             </MyPageLink>
           </li>
           <li>

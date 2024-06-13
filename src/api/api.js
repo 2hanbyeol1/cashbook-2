@@ -13,14 +13,16 @@ class API {
     this.#axios = axios.create({
       baseURL: this.#baseURL,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}` || "",
+        Authorization: localStorage.getItem(ACCESS_TOKEN)
+          ? `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+          : "",
       },
     });
     this.auth = new AuthAPI(this.#axios);
   }
 
   setAccessToken(accessToken) {
-    this.#axios.defaults.headers.common.Authorization = accessToken
+    this.#axios.defaults.headers.Authorization = accessToken
       ? `Bearer ${accessToken}`
       : "";
   }
