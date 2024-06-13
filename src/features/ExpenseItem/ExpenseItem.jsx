@@ -32,6 +32,12 @@ const Date = styled.span`
   font-size: 0.7rem;
   color: #545454;
 `;
+const User = styled.div`
+  font-size: 0.8rem;
+  color: #939393;
+`;
+const CreatedBy = styled.span``;
+const UserId = styled.span``;
 
 function ExpenseItem({ expense }) {
   return (
@@ -41,8 +47,12 @@ function ExpenseItem({ expense }) {
           <Item>#{expense.item}</Item>{" "}
           <Description>{expense.description}</Description>
         </Content>
+        <Amount>{expense.amount.toLocaleString()}원</Amount>
         <Info>
-          <Amount>{expense.amount.toLocaleString()}원</Amount>
+          <User>
+            <CreatedBy>{expense.createdBy} </CreatedBy>
+            <UserId>({expense.userId})</UserId>
+          </User>
           <Date>{expense.date}</Date>
         </Info>
       </StyledListItem>

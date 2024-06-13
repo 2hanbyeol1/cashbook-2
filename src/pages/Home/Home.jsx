@@ -1,4 +1,3 @@
-import Button from "@/components/Button";
 import MonthSelector from "@/components/MonthSelector";
 import ExpenseForm from "@/features/ExpenseForm";
 import ExpenseList from "@/features/ExpenseList";
@@ -18,10 +17,6 @@ const Wrapper = styled.main`
   > section {
     width: 100%;
   }
-`;
-
-const SubmitButton = styled(Button)`
-  grid-column: span 4;
 `;
 
 function Home() {
@@ -52,9 +47,7 @@ function Home() {
         selectedMonth={selectedMonth}
         handleMonthClicked={handleMonthClicked}
       />
-      <ExpenseForm handleSubmit={handleSubmit}>
-        <SubmitButton type="submit">등록</SubmitButton>
-      </ExpenseForm>
+      <ExpenseForm handleSubmit={handleSubmit} text="등록" />
       <ExpenseList selectedMonth={selectedMonth} expenses={expenses} />
     </Wrapper>
   );

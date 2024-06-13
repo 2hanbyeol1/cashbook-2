@@ -35,7 +35,11 @@ function Detail() {
   return (
     <Wrapper>
       {expense ? (
-        <ExpenseForm handleSubmit={handleSubmit} initialValue={expense} />
+        <ExpenseForm
+          handleSubmit={handleSubmit}
+          initialValue={expense}
+          text="저장"
+        />
       ) : (
         <NoData>
           <div>아이디에 해당하는 데이터가 존재하지 않습니다 🥺</div>

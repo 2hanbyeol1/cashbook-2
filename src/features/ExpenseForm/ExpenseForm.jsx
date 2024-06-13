@@ -3,6 +3,7 @@ import ExpenseManageButtonGroup from "@/features/ExpenseManageButtonGroup";
 import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
+import useLoginStore from "../../state/zustand/login.store";
 
 const StyledForm = styled.form`
   display: flex;
@@ -13,7 +14,9 @@ const StyledForm = styled.form`
   border-radius: 0.3rem;
 `;
 
-function ExpenseForm({ handleSubmit, initialValue }) {
+function ExpenseForm({ text, handleSubmit, initialValue }) {
+  const loginUser = useLoginStore((state) => state.loginUser);
+
   useEffect(() => {
     dateRef.current.focus();
 
@@ -41,11 +44,14 @@ function ExpenseForm({ handleSubmit, initialValue }) {
       return alert("입력하지 않은 값이 있습니다.");
     if (!isNumeric(amount)) return alert("금액은 숫자로 작성해주세요");
 
+    console.log(loginUser);
     const newExpense = {
       date,
       item,
       amount: parseInt(amount),
       description,
+      createdBy: loginUser.nickname,
+      userId: loginUser.id,
     };
     handleSubmit({ newExpense });
 
@@ -68,7 +74,7 @@ function ExpenseForm({ handleSubmit, initialValue }) {
           amountRef={amountRef}
           descriptionRef={descriptionRef}
         />
-        <ExpenseManageButtonGroup />
+        <ExpenseManageButtonGroup text={text} />
       </StyledForm>
     </section>
   );

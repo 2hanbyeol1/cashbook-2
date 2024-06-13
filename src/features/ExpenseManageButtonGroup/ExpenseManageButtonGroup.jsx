@@ -10,7 +10,7 @@ const ButtonGroup = styled.div`
   justify-content: flex-end;
 `;
 
-function ExpenseManageButtonGroup() {
+function ExpenseManageButtonGroup({ text }) {
   const { expenseId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ function ExpenseManageButtonGroup() {
 
   return (
     <ButtonGroup>
-      <Button type="submit">수정</Button>
+      <Button type="submit">{text}</Button>
       <Button type="button" onClick={handleDeleteButtonClicked}>
         삭제
       </Button>

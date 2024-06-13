@@ -41,18 +41,23 @@ function MyPage() {
 
   const handleChangeFormSubmit = async (e) => {
     e.preventDefault();
-    const image = imageRef.current.files[0];
+    const imageFile = imageRef.current.files[0];
     const name = nameRef.current.value;
     if (name.length < NAME_MIN || name.length > NAME_MAX)
       return alert(`닉네임은 ${NAME_MIN} - ${NAME_MAX} 글자로 작성해주세요`);
 
-    const loginUser = await api.auth.changeInfo({
+    const changedUser = await api.auth.changeInfo({
       nickname: name,
-      avatar: image,
+      avatar: imageFile,
     });
-    if (loginUser) {
+    if (changedUser) {
       alert(`수정 완료`);
-      login(loginUser);
+      login({
+        ...loginUser,
+        nickname: changedUser.nickname,
+        avatar: changedUser.avatar,
+      });
+      console.log("저장본", loginUser);
     }
   };
 
