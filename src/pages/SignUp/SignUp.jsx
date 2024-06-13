@@ -3,7 +3,9 @@ import Link from "@/components/Link";
 import TextInput from "@/components/TextInput";
 import Title from "@/components/Title";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import api from "../../api/api";
 import {
   ID_MAX,
   ID_MIN,
@@ -36,22 +38,29 @@ const StyledLink = styled(Link)`
 `;
 
 function SignUp() {
+  const navigate = useNavigate();
   const idRef = useRef(null);
   const pwRef = useRef(null);
   const nameRef = useRef(null);
 
-  const handleSignUpFormSubmit = (e) => {
+  const handleSignUpFormSubmit = async (e) => {
     e.preventDefault();
-    const idLength = idRef.current.value.length;
-    const pwLength = pwRef.current.value.length;
-    const nameLength = nameRef.current.value.length;
+    const id = idRef.current.value;
+    const pw = pwRef.current.value;
+    const name = nameRef.current.value;
 
-    if (idLength < ID_MIN || idLength > ID_MAX)
+    if (id.length < ID_MIN || id.length > ID_MAX)
       return alert(`아이디는 ${ID_MIN} - ${ID_MAX} 글자로 작성해주세요`);
-    if (pwLength < PW_MIN || pwLength > PW_MAX)
+    if (pw.length < PW_MIN || pw.length > PW_MAX)
       return alert(`비밀번호는 ${PW_MIN} - ${PW_MAX} 글자로 작성해주세요`);
-    if (nameLength < NAME_MIN || nameLength > NAME_MAX)
-      return alert(`닉네임은 ${PW_MIN} - ${PW_MAX} 글자로 작성해주세요`);
+    if (name.length < NAME_MIN || name.length > NAME_MAX)
+      return alert(`닉네임은 ${NAME_MIN} - ${NAME_MAX} 글자로 작성해주세요`);
+
+    const success = await api.auth.signUp({ id, password: pw, nickname: name });
+    if (success) {
+      alert("회원가입 성공");
+      navigate("/login");
+    }
   };
 
   return (
@@ -59,7 +68,7 @@ function SignUp() {
       <StyledForm onSubmit={handleSignUpFormSubmit}>
         <Title>회원가입</Title>
         <TextInput ref={idRef} placeholder="아이디" />
-        <TextInput ref={pwRef} placeholder="비밀번호" />
+        <TextInput type="password" ref={pwRef} placeholder="비밀번호" />
         <TextInput ref={nameRef} placeholder="닉네임" />
         <Button $width="100%">회원가입</Button>
         <StyledLink to="/login">로그인</StyledLink>
