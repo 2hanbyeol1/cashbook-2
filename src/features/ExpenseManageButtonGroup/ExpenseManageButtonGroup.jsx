@@ -1,8 +1,9 @@
 import Button from "@/components/Button";
-import { useDispatch } from "react-redux";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { deleteExpense } from "../../redux/slices/expenses.slice";
+import api from "../../api/api";
 
 const ButtonGroup = styled.div`
   display: flex;
@@ -10,25 +11,32 @@ const ButtonGroup = styled.div`
   justify-content: flex-end;
 `;
 
-function ExpenseManageButtonGroup({ text }) {
+function ExpenseManageButtonGroup({ text, isMine }) {
   const { expenseId } = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteExpense } = useMutation({
+    mutationFn: () => api.expense.deleteExpense(expenseId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["expense"] }),
+  });
 
   const goHome = () => navigate("/");
 
   const handleDeleteButtonClicked = () => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
-    dispatch(deleteExpense(expenseId));
+    deleteExpense(expenseId);
     goHome();
   };
 
   return (
     <ButtonGroup>
-      <Button type="submit">{text}</Button>
-      <Button type="button" onClick={handleDeleteButtonClicked}>
-        삭제
-      </Button>
+      {(text === "등록" || isMine) && <Button type="submit">{text}</Button>}
+      {text === "수정" && isMine && (
+        <Button type="button" onClick={handleDeleteButtonClicked}>
+          삭제
+        </Button>
+      )}
       <Button type="button" onClick={goHome}>
         홈 화면으로 이동
       </Button>
@@ -36,6 +44,9 @@ function ExpenseManageButtonGroup({ text }) {
   );
 }
 
-ExpenseManageButtonGroup.propTypes = {};
+ExpenseManageButtonGroup.propTypes = {
+  text: PropTypes.string.isRequired,
+  isMine: PropTypes.bool,
+};
 
 export default ExpenseManageButtonGroup;

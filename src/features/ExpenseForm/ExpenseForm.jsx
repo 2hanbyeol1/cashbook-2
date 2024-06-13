@@ -14,7 +14,7 @@ const StyledForm = styled.form`
   border-radius: 0.3rem;
 `;
 
-function ExpenseForm({ text, handleSubmit, initialValue }) {
+function ExpenseForm({ handleSubmit, initialValue, userId }) {
   const loginUser = useLoginStore((state) => state.loginUser);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function ExpenseForm({ text, handleSubmit, initialValue }) {
       amountRef.current.value = initialValue.amount;
       descriptionRef.current.value = initialValue.description;
     }
-  }, []);
+  }, [initialValue]);
 
   const dateRef = useRef(null);
   const itemRef = useRef(null);
@@ -44,7 +44,6 @@ function ExpenseForm({ text, handleSubmit, initialValue }) {
       return alert("입력하지 않은 값이 있습니다.");
     if (!isNumeric(amount)) return alert("금액은 숫자로 작성해주세요");
 
-    console.log(loginUser);
     const newExpense = {
       date,
       item,
@@ -74,7 +73,10 @@ function ExpenseForm({ text, handleSubmit, initialValue }) {
           amountRef={amountRef}
           descriptionRef={descriptionRef}
         />
-        <ExpenseManageButtonGroup text={text} />
+        <ExpenseManageButtonGroup
+          text={initialValue ? "수정" : "등록"}
+          isMine={userId === loginUser?.id}
+        />
       </StyledForm>
     </section>
   );
@@ -89,6 +91,7 @@ ExpenseForm.propTypes = {
     amount: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
   }),
+  createdBy: PropTypes.string,
 };
 
 export default ExpenseForm;

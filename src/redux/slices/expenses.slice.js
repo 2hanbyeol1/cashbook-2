@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { v4 as uuid } from "uuid";
 
 const initialState = JSON.parse(localStorage.getItem("expenses")) || [];
 
@@ -7,19 +6,6 @@ const expensesSlice = createSlice({
   initialState,
   name: "expenses",
   reducers: {
-    addExpense: (prevState, action) => {
-      const { date, item, description, amount, createdBy, userId } =
-        action.payload;
-      prevState.push({
-        id: uuid(),
-        date,
-        item,
-        description,
-        amount,
-        createdBy,
-        userId,
-      });
-    },
     updateExpense: (prevState, action) => {
       const newExpense = action.payload;
       const idx = prevState.findIndex(

@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
+import api from "../../api/api";
 import ExpenseItem from "../ExpenseItem";
 
 const Wrapper = styled.div`
@@ -19,11 +20,21 @@ const NullData = styled.div`
 `;
 
 function ExpenseList({ selectedMonth }) {
-  const expenses = useSelector((state) => state.expenses);
+  const {
+    data: expenses,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["expense", { list: true }], // 쿼리키는 배열로 만든다. 첫 요소는 데이터의 모델명 string, 두번째 요소는 데이터를 설명하는 정보를 object로 넣는다.
+    queryFn: () => api.expense.getExpenses(),
+  });
 
-  const filteredExpenses = expenses.filter(
+  const filteredExpenses = expenses?.filter(
     (expense) => parseInt(expense.date.split("-")[1]) === selectedMonth
   );
+
+  if (isLoading) return <section>isLoading...</section>;
+  if (isError) return <section>isError...</section>;
 
   return (
     <section>

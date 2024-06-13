@@ -1,10 +1,10 @@
 import MonthSelector from "@/components/MonthSelector";
 import ExpenseForm from "@/features/ExpenseForm";
 import ExpenseList from "@/features/ExpenseList";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { addExpense } from "../../redux/slices/expenses.slice";
+import api from "../../api/api";
 
 const Wrapper = styled.main`
   display: flex;
@@ -20,8 +20,13 @@ const Wrapper = styled.main`
 `;
 
 function Home() {
-  const dispatch = useDispatch();
-  const expenses = useSelector((state) => state.expenses);
+  const queryClient = useQueryClient();
+  const { mutate: addExpense } = useMutation({
+    mutationFn: (newExpense) => api.expense.addExpense(newExpense),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["expense"] });
+    },
+  });
 
   const [selectedMonth, setSelectedMonth] = useState(
     parseInt(localStorage.getItem("month")) || 1
@@ -32,7 +37,7 @@ function Home() {
   }, [selectedMonth]);
 
   const handleSubmit = ({ newExpense }) => {
-    dispatch(addExpense(newExpense));
+    addExpense(newExpense);
     const month = parseInt(newExpense.date.split("-")[1]);
     setSelectedMonth(month);
   };
@@ -48,7 +53,7 @@ function Home() {
         handleMonthClicked={handleMonthClicked}
       />
       <ExpenseForm handleSubmit={handleSubmit} text="등록" />
-      <ExpenseList selectedMonth={selectedMonth} expenses={expenses} />
+      <ExpenseList selectedMonth={selectedMonth} />
     </Wrapper>
   );
 }

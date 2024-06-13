@@ -57,7 +57,6 @@ function MyPage() {
         nickname: changedUser.nickname,
         avatar: changedUser.avatar,
       });
-      console.log("저장본", loginUser);
     }
   };
 

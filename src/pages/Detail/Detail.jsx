@@ -1,9 +1,9 @@
 import Button from "@/components/Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import api from "../../api/api";
 import ExpenseForm from "../../features/ExpenseForm/ExpenseForm";
-import { updateExpense } from "../../redux/slices/expenses.slice";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -20,25 +20,42 @@ const NoData = styled.div`
 `;
 
 function Detail() {
-  const dispatch = useDispatch();
   const { expenseId } = useParams();
-  const expenses = useSelector((state) => state.expenses);
-  const expense = expenses.find((expense) => expense.id === expenseId);
+  const queryClient = useQueryClient();
+
+  const {
+    data: expense,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["expense"],
+    queryFn: () => api.expense.getExpense(expenseId),
+  });
+
+  const { mutate: updateExpense } = useMutation({
+    mutationFn: (newExpense) =>
+      api.expense.updateExpense({ ...newExpense, id: expenseId }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["expense"] }),
+  });
 
   const handleSubmit = ({ newExpense }) => {
-    dispatch(updateExpense({ ...newExpense, id: expenseId }));
+    updateExpense(newExpense);
     goHome();
   };
   const navigate = useNavigate();
   const goHome = () => navigate("/");
+
+  if (isLoading) return <Wrapper>isLoading...</Wrapper>;
+  if (isError) return <Wrapper>isError...</Wrapper>;
 
   return (
     <Wrapper>
       {expense ? (
         <ExpenseForm
           handleSubmit={handleSubmit}
-          initialValue={expense}
-          text="저장"
+          initialValue={expense[0]}
+          text="수정"
+          userId={expense[0].userId}
         />
       ) : (
         <NoData>
