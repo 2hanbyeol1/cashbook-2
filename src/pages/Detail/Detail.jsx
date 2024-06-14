@@ -35,12 +35,14 @@ function Detail() {
   const { mutate: updateExpense } = useMutation({
     mutationFn: (newExpense) =>
       api.expense.updateExpense({ ...newExpense, id: expenseId }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["expense"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["expense"] });
+      goHome();
+    },
   });
 
   const handleSubmit = ({ newExpense }) => {
     updateExpense(newExpense);
-    goHome();
   };
   const navigate = useNavigate();
   const goHome = () => navigate("/");

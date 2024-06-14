@@ -44,7 +44,7 @@ class ExpenseAPI {
 
   async updateExpense(newExpense) {
     try {
-      const response = await this.#client.put(
+      const response = await this.#client.patch(
         `/expenses/${newExpense.id}`,
         newExpense
       );

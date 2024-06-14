@@ -18,7 +18,10 @@ function ExpenseManageButtonGroup({ text, isMine }) {
 
   const { mutate: deleteExpense } = useMutation({
     mutationFn: () => api.expense.deleteExpense(expenseId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["expense"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["expense"] });
+      goHome();
+    },
   });
 
   const goHome = () => navigate("/");
@@ -26,7 +29,6 @@ function ExpenseManageButtonGroup({ text, isMine }) {
   const handleDeleteButtonClicked = () => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
     deleteExpense(expenseId);
-    goHome();
   };
 
   return (
