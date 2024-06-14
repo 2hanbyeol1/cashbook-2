@@ -43,9 +43,10 @@ function MyPage() {
     e.preventDefault();
     const imageFile = imageRef.current.files[0];
     const name = nameRef.current.value;
+    if (!imageFile && loginUser.nickname === name)
+      return alert("수정된 정보가 없습니다");
     if (name.length < NAME_MIN || name.length > NAME_MAX)
       return alert(`닉네임은 ${NAME_MIN} - ${NAME_MAX} 글자로 작성해주세요`);
-
     const changedUser = await api.auth.changeInfo({
       nickname: name,
       avatar: imageFile,
