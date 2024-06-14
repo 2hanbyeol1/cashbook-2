@@ -55,7 +55,7 @@ function MyPage() {
       login({
         ...loginUser,
         nickname: changedUser.nickname,
-        avatar: changedUser.avatar,
+        avatar: changedUser.avatar || loginUser.avatar,
       });
     }
   };
