@@ -3,7 +3,7 @@ import { ACCESS_TOKEN } from "../constants/storageKey";
 import AuthAPI from "./api.auth";
 import ExpenseAPI from "./api.expense";
 
-const BASE_URL = "https://moneyfulpublicpolicy.co.kr";
+const BASE_URL = "https://hungry-spring-scourge.glitch.me";
 
 class API {
   #baseURL = BASE_URL;
@@ -14,7 +14,7 @@ class API {
 
   constructor() {
     this.#axios = axios.create({
-      baseURL: this.#baseURL,
+      baseURL: "https://moneyfulpublicpolicy.co.kr",
       headers: {
         Authorization: localStorage.getItem(ACCESS_TOKEN)
           ? `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
@@ -22,7 +22,7 @@ class API {
       },
     });
     this.#axiosJson = axios.create({
-      baseURL: "http://localhost:5000/",
+      baseURL: this.#baseURL,
     });
     this.auth = new AuthAPI(this.#axios);
     this.expense = new ExpenseAPI(this.#axiosJson);

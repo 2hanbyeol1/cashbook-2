@@ -8,60 +8,6 @@
       "description": "asdf",
       "createdBy": "한별이요ㅋ",
       "userId": "2hanbyeol1"
-    },
-    {
-      "id": "d5fbe1dc-21c7-40b5-92d0-8826a17b74ba",
-      "date": "2024-06-21",
-      "item": "1234",
-      "amount": 12,
-      "description": "12",
-      "createdBy": "한별이요ㅋ",
-      "userId": "2hanbyeol1"
-    },
-    {
-      "id": "3821310c-2dd4-42e4-a46f-8091285c0e0b",
-      "date": "2024-06-14",
-      "item": "zz",
-      "amount": 1234,
-      "description": "제발",
-      "createdBy": "한별이요ㅋ",
-      "userId": "2hanbyeol1"
-    },
-    {
-      "id": "ad59977f-a20f-4955-93eb-a1a4495b0b65",
-      "date": "2024-06-14",
-      "item": "ㅁㄴㅇㄹ",
-      "amount": 1234,
-      "description": "ㅁㄴㅇㄹ",
-      "createdBy": "한별이요ㅋ",
-      "userId": "2hanbyeol1"
-    },
-    {
-      "id": "d8cc3616-2c77-4339-be33-174a79fe0750",
-      "date": "2024-05-15",
-      "item": "ㅁㄴㅇㄹ",
-      "amount": 1234,
-      "description": "ㅋㅋ",
-      "createdBy": "한별이요ㅋ",
-      "userId": "2hanbyeol1"
-    },
-    {
-      "id": "ebde40a3-3890-4e00-aa4a-8d5990fbdc82",
-      "date": "2024-06-15",
-      "item": "test",
-      "amount": 1234,
-      "description": "test",
-      "createdBy": "한별이요ㅋ",
-      "userId": "2hanbyeol1"
-    },
-    {
-      "id": "3e985594-1be7-44ce-aa54-27fbf12357e5",
-      "date": "2024-11-14",
-      "item": "히히히히",
-      "amount": 1234,
-      "description": "ghgh",
-      "createdBy": "한별이요ㅋ",
-      "userId": "2hanbyeol1"
     }
   ]
 }
