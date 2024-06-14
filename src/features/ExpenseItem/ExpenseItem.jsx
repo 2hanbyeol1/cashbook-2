@@ -24,6 +24,8 @@ const Description = styled.span``;
 const Info = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-top: 0.3rem;
 `;
 const Amount = styled.span`
   font-size: 0.9rem;
@@ -33,8 +35,17 @@ const Date = styled.span`
   color: #545454;
 `;
 const User = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 0.8rem;
   color: #939393;
+  gap: 0.3rem;
+`;
+const UserImg = styled.img`
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 const CreatedBy = styled.span``;
 const UserId = styled.span``;
@@ -50,6 +61,7 @@ function ExpenseItem({ expense }) {
         <Amount>{expense.amount.toLocaleString()}원</Amount>
         <Info>
           <User>
+            <UserImg src={expense.avatar} />
             <CreatedBy>{expense.createdBy} </CreatedBy>
             <UserId>({expense.userId})</UserId>
           </User>

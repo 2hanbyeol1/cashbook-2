@@ -49,8 +49,6 @@ function ExpenseForm({ handleSubmit, initialValue, userId }) {
       item,
       amount: parseInt(amount),
       description,
-      createdBy: loginUser.nickname,
-      userId: loginUser.id,
     };
     handleSubmit({ newExpense });
 

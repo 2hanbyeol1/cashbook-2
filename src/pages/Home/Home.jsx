@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import api from "../../api/api";
+import useLoginStore from "../../state/zustand/login.store";
 
 const Wrapper = styled.main`
   display: flex;
@@ -20,7 +21,9 @@ const Wrapper = styled.main`
 `;
 
 function Home() {
+  const loginUser = useLoginStore((state) => state.loginUser);
   const queryClient = useQueryClient();
+
   const { mutate: addExpense } = useMutation({
     mutationFn: (newExpense) => api.expense.addExpense(newExpense),
     onSuccess: () => {
@@ -37,7 +40,12 @@ function Home() {
   }, [selectedMonth]);
 
   const handleSubmit = ({ newExpense }) => {
-    addExpense(newExpense);
+    addExpense({
+      ...newExpense,
+      createdBy: loginUser.nickname,
+      userId: loginUser.id,
+      avatar: loginUser.avatar,
+    });
     const month = parseInt(newExpense.date.split("-")[1]);
     setSelectedMonth(month);
   };
