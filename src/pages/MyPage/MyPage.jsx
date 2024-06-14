@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import TextInput from "@/components/TextInput";
 import Title from "@/components/Title";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import api from "../../api/api";
@@ -34,10 +35,18 @@ function MyPage() {
   const loginUser = useLoginStore((state) => state.loginUser);
   const login = useLoginStore((state) => state.login);
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     nameRef.current.value = loginUser?.nickname;
     setImage(loginUser?.avatar);
   }, [loginUser]);
+
+  const { mutate: updateExpense } = useMutation({
+    mutationFn: ({ expenseId, newExpense }) =>
+      api.expense.updateExpense(expenseId, newExpense),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["expense"] }),
+  });
 
   const handleChangeFormSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +66,16 @@ function MyPage() {
         ...loginUser,
         nickname: changedUser.nickname,
         avatar: changedUser.avatar || loginUser.avatar,
+      });
+      const expenses = await api.expense.getExpensesByUserId(loginUser.id);
+      expenses.forEach(({ id: expenseId }) => {
+        updateExpense({
+          expenseId,
+          newExpense: {
+            avatar: changedUser.avatar,
+            createdBy: changedUser.nickname,
+          },
+        });
       });
     }
   };

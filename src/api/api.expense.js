@@ -17,6 +17,17 @@ class ExpenseAPI {
     return null;
   }
 
+  async getExpensesByUserId(userId) {
+    try {
+      const response = await this.#client.get(`/expenses?userId=${userId}`);
+      const data = response.data;
+      return data;
+    } catch (e) {
+      alert("해당 유저의 지출 정보를 가져오는데 실패했습니다");
+    }
+    return null;
+  }
+
   async getExpense(expenseId) {
     try {
       const response = await this.#client.get(`/expenses?id=${expenseId}`);
@@ -42,10 +53,10 @@ class ExpenseAPI {
     return null;
   }
 
-  async updateExpense(newExpense) {
+  async updateExpense(expenseId, newExpense) {
     try {
       const response = await this.#client.patch(
-        `/expenses/${newExpense.id}`,
+        `/expenses/${expenseId}`,
         newExpense
       );
       const data = response.data;

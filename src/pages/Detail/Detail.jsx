@@ -34,7 +34,7 @@ function Detail() {
 
   const { mutate: updateExpense } = useMutation({
     mutationFn: (newExpense) =>
-      api.expense.updateExpense({ ...newExpense, id: expenseId }),
+      api.expense.updateExpense(expenseId, newExpense),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expense"] });
       goHome();
@@ -57,7 +57,7 @@ function Detail() {
           handleSubmit={handleSubmit}
           initialValue={expense[0]}
           text="수정"
-          userId={expense[0].userId}
+          userId={expense[0]?.userId}
         />
       ) : (
         <NoData>

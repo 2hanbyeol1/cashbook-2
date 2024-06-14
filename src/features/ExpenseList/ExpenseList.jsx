@@ -15,11 +15,11 @@ const Wrapper = styled.div`
   overflow-y: scroll;
 `;
 
-const NullData = styled.div`
+const CenteredText = styled.div`
   text-align: center;
 `;
 
-function ExpenseList({ selectedMonth }) {
+function ExpenseList({ selectedMonth, isPending }) {
   const {
     data: expenses,
     isLoading,
@@ -39,8 +39,10 @@ function ExpenseList({ selectedMonth }) {
   return (
     <section>
       <Wrapper>
-        {filteredExpenses.length === 0 ? (
-          <NullData>{selectedMonth}월 지출 내역이 없습니다 🤷</NullData>
+        {isPending ? (
+          <CenteredText>🙀 데이터를 변경하고 있습니다. . .</CenteredText>
+        ) : filteredExpenses.length === 0 ? (
+          <CenteredText>{selectedMonth}월 지출 내역이 없습니다 🤷</CenteredText>
         ) : (
           filteredExpenses
             .sort((a, b) => (a.date < b.date ? 1 : -1))

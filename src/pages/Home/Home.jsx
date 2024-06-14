@@ -24,7 +24,7 @@ function Home() {
   const loginUser = useLoginStore((state) => state.loginUser);
   const queryClient = useQueryClient();
 
-  const { mutate: addExpense } = useMutation({
+  const { isPending, mutate: addExpense } = useMutation({
     mutationFn: (newExpense) => api.expense.addExpense(newExpense),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expense"] });
@@ -61,7 +61,7 @@ function Home() {
         handleMonthClicked={handleMonthClicked}
       />
       <ExpenseForm handleSubmit={handleSubmit} text="등록" />
-      <ExpenseList selectedMonth={selectedMonth} />
+      <ExpenseList selectedMonth={selectedMonth} isPending={isPending} />
     </Wrapper>
   );
 }
